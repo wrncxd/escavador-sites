@@ -77,30 +77,28 @@ class BookSpiderTest(unittest.TestCase):
             body = self.example_html,
             encoding="utf-8"
         )
+    def test_parse_scrapes_correct_book_information(self):
+        """Testa se a spider escava a informação correta de cada livro"""
+        # coleta os items  que foram gerados na lista
+        results = list(self.spider.parse(self.response))
+        
+        # tem que ter mais do que 2 items pra book e um pedido de pagination
+        book_items = [item for item in results if isinstance(item, BooksItem)]
+        pagination_requests = [
+            item for item in results if isinstance(item, Request)
+        ]    
 
-def test_parse_scrapes_correct_book_information(self):
-    """testa se a spider escava a informação correta de cada livro"""
-    # coleta os items  que foram gerados na lista
-    # pra que ppssa ser possivel itinerar mais de
-    # uma vez.
-    results = list(self.spider.parse(self.response))
     
     
-    # tem que ter mais do que 2 items pra book e um pedido de pagination
-    book_items = [item for item in results if isinstance(item, BooksItem)]
-    pagination_requests = [
-        item for item in results if isinstance(item, Request)
-    ]
-    
-    self.assertEqual(len(book_items), 2)
-    self.assertEqual(len(pagination_requests), 1)
+        self.assertEqual(len(book_items), 2)
+        self.assertEqual(len(pagination_requests), 1)
 
-def test_parse_creates_pagination_request(self):
-    """testa se a spider cria o pedido da paginação corretamente"""
-    results = list(self.spider.parse(self.response))
-    pagination_requests = [item for item in results if isinstance(item, Request)]
-    self.assertEqual(len(pagination_requests), 1) # verifica se tem um pedido de paginação
-    self.assertEqual(pagination_requests[0].url, "https://books.toscrape.com/catalogue/page-2.html")
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_parse_creates_pagination_request(self):
+     """testa se a spider cria o pedido da paginação corretamente"""
+     results = list(self.spider.parse(self.response))
+     pagination_requests = [item for item in results if isinstance(item, Request)]
+     self.assertEqual(len(pagination_requests), 1) # verifica se tem um pedido de paginação
+     self.assertEqual(pagination_requests[0].url, "https://books.toscrape.com/catalogue/page-2.html")
+ 
+    if __name__ == "__main__":
+      unittest.main()
