@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc 
+*.pyo
+# ambiente virtual
+venv/
+.env
+
+#logs
+*.log 
+# arquivo de configuração
+
+*.sqlite3
